@@ -1,0 +1,6 @@
+{
+  "name": "Ramblings & Epiphanies | Mimshach Obioha",
+  "description": "Official landing page for 'Ramblings & Epiphanies: The Self Journal' by Mimshach Obioha.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

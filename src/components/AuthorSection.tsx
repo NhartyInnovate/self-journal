@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import authorPortraitImg from '../assets/images/mimshach_author_portrait_1787056811321.jpg';
 
 interface AuthorSectionProps {
   onLearnMoreBio?: () => void;
@@ -25,14 +26,14 @@ export const AuthorSection: React.FC<AuthorSectionProps> = () => {
           >
             <div
               id="author-portrait-card"
-              className="relative w-full aspect-[3/4] max-w-[420px] rounded-[4px] overflow-hidden shadow-xl shadow-black/8 group bg-[#111111] transition-shadow duration-500 hover:shadow-2xl"
+              className="relative w-full aspect-[3/4] max-w-[420px] rounded-[6px] overflow-hidden shadow-xl shadow-black/8 group bg-[#111111] transition-shadow duration-500 hover:shadow-2xl border border-[#EAEAEA]"
             >
-              {/* High-res Black & White Editorial Author Portrait */}
+              {/* High-res Author Portrait */}
               <img
                 id="author-portrait-image"
-                src="/src/assets/images/mimshach_obioha_portrait_1787044786544.jpg"
-                alt="Mimshach Obioha - Author Portrait in black and white"
-                className="w-full h-full object-cover object-center filter grayscale contrast-[1.08] brightness-[0.98] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                src={authorPortraitImg}
+                alt="Mimshach Obioha - Author Portrait"
+                className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                 referrerPolicy="no-referrer"
               />
 

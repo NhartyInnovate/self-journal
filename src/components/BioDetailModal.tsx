@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Book, Award, Feather, Sparkles } from 'lucide-react';
+import { X, Book, Feather, Sparkles } from 'lucide-react';
 import { AUTHOR_BIO } from '../data/bookData';
+import authorPortraitImg from '../assets/images/mimshach_author_portrait_1787056811321.jpg';
 
 interface BioDetailModalProps {
   isOpen: boolean;
@@ -57,9 +58,9 @@ export const BioDetailModal: React.FC<BioDetailModalProps> = ({ isOpen, onClose 
             <div className="flex flex-col sm:flex-row gap-6 items-start">
               <div className="w-28 sm:w-32 aspect-[3/4] rounded-lg overflow-hidden border border-[#EAEAEA] shadow-md bg-[#111111] shrink-0">
                 <img
-                  src="/src/assets/images/mimshach_obioha_portrait_1787044786544.jpg"
+                  src={authorPortraitImg}
                   alt="Mimshach Obioha"
-                  className="w-full h-full object-cover filter grayscale contrast-[1.08]"
+                  className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
               </div>

@@ -88,12 +88,13 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const AUTHOR_BIO = {
   name: 'Mimshach Obioha',
+  role: 'Author & Creator of The Self Journal',
   shortBio:
-    'Author biography to be added. Mimshach Obioha is the author of "Ramblings & Epiphanies: The Self Journal", exploring self-inquiry, personal transformation, and mindful reflection.',
+    'Mimshach Obioha is an author and thinker dedicated to exploring self-inquiry, personal transformation, and mindful reflection through intentional literature and structured journaling.',
   extendedBio:
-    'Author biography to be added. Check back soon for upcoming author notes, tour announcements, and speaking engagements.',
+    'Through "Ramblings & Epiphanies: The Self Journal", Mimshach Obioha creates a sanctuary for honest dialogue, mental clarity, and deep introspection. His work bridges candid personal reflections with practical self-inquiry architectures designed to help readers navigate their inner landscapes with intentionality and grace.',
   notableWorks: [
-    { title: 'Ramblings & Epiphanies: The Self Journal', year: '2026', type: 'Journal & Reflections' },
+    { title: 'Ramblings & Epiphanies: The Self Journal', year: '2026', type: 'Hardcover & Digital Edition' },
   ],
 };
 

@@ -96,19 +96,19 @@ export const AuthorSection: React.FC<AuthorSectionProps> = () => {
             </div>
 
             {/* 4. Biography Subtitle & Description */}
-            <div id="author-bio-details" className="flex flex-col gap-2 max-w-2xl">
+            <div id="author-bio-details" className="flex flex-col gap-3 max-w-2xl">
               <p
-                id="author-bio-title"
-                className="text-[13px] sm:text-[14px] text-[#5F5F5F] font-normal uppercase tracking-[1.5px]"
+                id="author-bio-desc"
+                className="text-[14.5px] sm:text-[15.5px] text-[#5F5F5F] font-normal leading-[1.75]"
               >
-                AUTHOR BIOGRAPHY WILL BE ADDED HERE.
+                Mimshach Obioha is an author and thinker dedicated to exploring self-inquiry, personal transformation, and mindful reflection. In <em>Ramblings &amp; Epiphanies: The Self Journal</em>, he presents an architectural framework for turning everyday observations into lasting mental clarity.
               </p>
 
               <p
-                id="author-bio-desc"
-                className="text-[14px] sm:text-[15px] text-[#5F5F5F]/80 font-normal leading-[1.7]"
+                id="author-bio-subdesc"
+                className="text-[13.5px] sm:text-[14.5px] text-[#777777] font-normal leading-[1.7]"
               >
-                Official biographical profile and publishing background will appear with the launch edition.
+                His writing invites readers to slow down, dismantle internal noise, and embrace honest self-examination as a daily discipline for intentional living.
               </p>
             </div>
           </motion.div>

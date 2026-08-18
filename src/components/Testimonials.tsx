@@ -72,7 +72,7 @@ export const Testimonials: React.FC<TestimonialsProps> = ({
                   id={`testimonial-header-${index + 1}`}
                   className="text-[17px] sm:text-[18px] font-semibold text-[#18181B] tracking-tight leading-snug mb-3.5"
                 >
-                  {review.header || (index === 0 ? 'Header' : index === 1 ? 'Header' : 'Header')}
+                  {review.header || (index === 0 ? 'Clarity & Introspection' : index === 1 ? 'Vulnerability & Depth' : 'Essential Companion')}
                 </h3>
 
                 {/* Review Body Text */}

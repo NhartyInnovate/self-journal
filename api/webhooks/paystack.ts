@@ -107,8 +107,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // EMAIL 1 - PREORDER CONFIRMATION
     if (order.confirmation_email_sent === false) {
-      const { resend, getFromEmail } = await import('../_lib/resend');
-      const { getPreorderConfirmationHtml } = await import('../_lib/email-templates');
+      const { resend, getFromEmail } = await import('../_lib/resend.js');
+      const { getPreorderConfirmationHtml } = await import('../_lib/email-templates.js');
       
       const releaseDate = process.env.RELEASE_DATE || 'Upcoming';
       const html = getPreorderConfirmationHtml(order.customer_name, 'Ramblings & Epiphanies', order.quantity, order.total_amount, order.payment_reference, releaseDate);

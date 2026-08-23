@@ -53,7 +53,7 @@ export const Newsletter: React.FC<NewsletterProps> = ({ onBonusUnlocked }) => {
               id="newsletter-eyebrow"
               className="text-[11px] font-semibold text-[#B5964A] uppercase tracking-[2px]"
             >
-              READER CIRCLE
+              COMMUNITY
             </span>
           </div>
 
@@ -71,90 +71,31 @@ export const Newsletter: React.FC<NewsletterProps> = ({ onBonusUnlocked }) => {
             id="newsletter-description"
             className="text-[14px] sm:text-[15px] text-[#5F5F5F] font-normal leading-[1.7] mb-8 max-w-lg mx-auto"
           >
-            Receive candid reflections, guided reflection frameworks, and author launch updates directly to your inbox.
+            Connect with other readers, access guided reflection frameworks, and receive direct updates from the author in our official WhatsApp community.
           </p>
 
-          {/* Form / State */}
-          <AnimatePresence mode="wait">
-            {!submitted ? (
-              <motion.form
-                key="form"
-                id="newsletter-form"
-                onSubmit={handleSubmit}
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="w-full max-w-md mx-auto"
+          {/* WhatsApp CTA Button */}
+          <div className="w-full max-w-md mx-auto flex justify-center">
+            {import.meta.env.VITE_WHATSAPP_CHANNEL_URL ? (
+              <a
+                href={import.meta.env.VITE_WHATSAPP_CHANNEL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-8 py-3.5 bg-[#111111] text-white text-[12px] sm:text-[13px] font-medium uppercase tracking-[1.5px] hover:bg-[#222222] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 shadow-[0_12px_25px_-5px_rgba(0,0,0,0.15)] hover:shadow-[0_18px_30px_-5px_rgba(0,0,0,0.25)] cursor-pointer select-none"
+                aria-label="Join the official Ramblings and Epiphanies WhatsApp channel"
               >
-                <div className="flex flex-col sm:flex-row items-stretch gap-2.5 sm:gap-2 bg-white rounded-full p-1.5 border border-[#EAEAEA] shadow-xs focus-within:border-[#111111] focus-within:shadow-sm transition-all duration-200">
-                  <div className="relative flex-1">
-                    <input
-                      id="newsletter-email-input"
-                      type="email"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        if (error) setError('');
-                      }}
-                      placeholder="Enter your email address"
-                      aria-label="Email address for newsletter"
-                      className="w-full px-5 py-2.5 bg-transparent text-[#111111] placeholder-neutral-400 text-[13px] sm:text-[14px] rounded-full focus:outline-none"
-                    />
-                  </div>
-
-                  <button
-                    id="newsletter-join-btn"
-                    type="submit"
-                    disabled={loading}
-                    className="px-7 py-3 bg-[#111111] hover:bg-[#222222] hover:-translate-y-0.5 active:scale-[0.98] text-white text-[12px] font-semibold tracking-[1.5px] uppercase rounded-full transition-all duration-200 flex items-center justify-center cursor-pointer min-w-[110px] shadow-xs hover:shadow-sm"
-                  >
-                    {loading ? (
-                      <span className="inline-block w-4 h-4 border-2 border-neutral-400 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      'JOIN'
-                    )}
-                  </button>
-                </div>
-
-                {error && (
-                  <p id="newsletter-error-msg" className="mt-2 text-xs text-rose-500 text-left sm:text-center">
-                    {error}
-                  </p>
-                )}
-
-                <p className="text-[11px] text-[#888888] mt-3 text-center">
-                  No spam ever. Unsubscribe at any time with a single click.
-                </p>
-              </motion.form>
+                <span>JOIN THE WHATSAPP CHANNEL</span>
+              </a>
             ) : (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white border border-[#EAEAEA] p-6 rounded-xl text-[#111111] text-center max-w-md mx-auto shadow-sm"
+              <button
+                disabled
+                className="group relative inline-flex items-center justify-center gap-2.5 rounded-full px-8 py-3.5 bg-[#EAEAEA] text-[#888888] text-[12px] sm:text-[13px] font-medium uppercase tracking-[1.5px] cursor-not-allowed select-none"
+                aria-label="WhatsApp channel link is currently unavailable"
               >
-                <div className="flex items-center justify-center gap-2 mb-2 text-[#111111]">
-                  <CheckCircle2 className="w-5 h-5 text-[#70C12E]" />
-                  <span className="font-semibold text-sm tracking-wide">
-                    Welcome to the Reader Circle!
-                  </span>
-                </div>
-                <p className="text-xs text-[#5F5F5F] mb-4">
-                  A welcome note and your link to access the <strong>Guided Reflection Prompts &amp; Framework</strong> have been sent to <em>{email}</em>.
-                </p>
-                <button
-                  onClick={() => {
-                    if (onBonusUnlocked) {
-                      onBonusUnlocked();
-                    }
-                  }}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#111111] text-white text-xs font-semibold uppercase tracking-wider rounded-full hover:bg-[#222222] hover:-translate-y-0.5 active:scale-[0.98] transition-all cursor-pointer shadow-xs"
-                >
-                  <Download className="w-3.5 h-3.5 text-[#B5964A]" />
-                  Access Reader Vault &amp; Guides
-                </button>
-              </motion.div>
+                <span>CHANNEL COMING SOON</span>
+              </button>
             )}
-          </AnimatePresence>
+          </div>
         </motion.div>
       </div>
     </section>

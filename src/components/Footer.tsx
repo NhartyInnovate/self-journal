@@ -116,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenBonuses, onOpenShop, onOpe
               onClick={handleLaunchClick}
               className="hover:text-white transition-colors duration-200 cursor-pointer uppercase tracking-[2px]"
             >
-              NEWSLETTER
+              COMMUNITY
             </button>
             <button
               id="footer-link-order"

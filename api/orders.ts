@@ -38,13 +38,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .limit(1)
       .maybeSingle();
 
+    let unit_price: number;
+    let currency: string;
+
     if (productError || !product) {
-      console.error('SERVER ERROR: Could not retrieve active product pricing.');
-      return res.status(500).json({ error: 'Pricing configuration error.' });
+      // Fallback to environment variable if database product is missing or misconfigured
+      const envPrice = process.env.BOOK_PRICE_KOBO;
+      if (envPrice && !isNaN(Number(envPrice))) {
+        unit_price = Number(envPrice);
+        currency = 'NGN';
+      } else {
+        console.error('SERVER ERROR: Could not retrieve active product pricing.');
+        return res.status(500).json({ error: 'Pricing configuration error.' });
+      }
+    } else {
+      unit_price = product.price;
+      currency = product.currency;
     }
 
-    const unit_price = product.price;
-    const currency = product.currency;
     const total_amount = unit_price * quantity;
     const order_id = crypto.randomUUID();
 

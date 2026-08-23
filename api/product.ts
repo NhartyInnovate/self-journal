@@ -24,6 +24,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .maybeSingle();
 
     if (error || !product) {
+      // Fallback to environment variable if database product is missing or misconfigured
+      const envPrice = process.env.BOOK_PRICE_KOBO;
+      if (envPrice && !isNaN(Number(envPrice))) {
+        return res.status(200).json({ name: 'Ramblings & Epiphanies', price: Number(envPrice), currency: 'NGN' });
+      }
       return res.status(500).json({ error: 'Pricing configuration error.' });
     }
 

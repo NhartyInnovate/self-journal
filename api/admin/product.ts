@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../_lib/supabase';
-import { requireAdminAuth } from '../_lib/auth';
+import { supabaseAdmin } from '../_lib/supabase.js';
+import { requireAdminAuth } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS for local dev

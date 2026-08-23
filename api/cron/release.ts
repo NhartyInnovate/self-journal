@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../_lib/supabase';
-import { resend, getFromEmail } from '../_lib/resend';
-import { getReleaseNotificationHtml } from '../_lib/email-templates';
+import { supabaseAdmin } from '../_lib/supabase.js';
+import { resend, getFromEmail } from '../_lib/resend.js';
+import { getReleaseNotificationHtml } from '../_lib/email-templates.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Cron endpoints are usually protected by Vercel automatically via headers,

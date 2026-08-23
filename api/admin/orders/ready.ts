@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from '../../_lib/supabase';
-import { requireAdminAuth } from '../../_lib/auth';
-import { resend, getFromEmail } from '../../_lib/resend';
-import { getCopyReadyHtml } from '../../_lib/email-templates';
+import { supabaseAdmin } from '../../_lib/supabase.js';
+import { requireAdminAuth } from '../../_lib/auth.js';
+import { resend, getFromEmail } from '../../_lib/resend.js';
+import { getCopyReadyHtml } from '../../_lib/email-templates.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');

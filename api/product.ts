@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { supabaseAdmin } from './_lib/supabase';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,11 +9,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).end();
   }
 
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
+  // Diagnostic Payload
+  const diagnostics = {
+    env: {
+      has_SUPABASE_URL: !!process.env.SUPABASE_URL,
+      has_SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+      has_BOOK_PRICE_KOBO: !!process.env.BOOK_PRICE_KOBO,
+    },
+    error: null as any
+  };
 
   try {
+    const { supabaseAdmin } = await import('./_lib/supabase');
+    
     const { data: product, error } = await supabaseAdmin
       .from('products')
       .select('name, price, currency')
@@ -24,17 +31,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .maybeSingle();
 
     if (error || !product) {
-      // Fallback to environment variable if database product is missing or misconfigured
-      const envPrice = process.env.BOOK_PRICE_KOBO;
-      if (envPrice && !isNaN(Number(envPrice))) {
-        return res.status(200).json({ name: 'Ramblings & Epiphanies', price: Number(envPrice), currency: 'NGN' });
-      }
-      return res.status(500).json({ error: 'Pricing configuration error.' });
+      diagnostics.error = error || 'No active product found';
+      return res.status(500).json({ error: 'Pricing configuration error.', diagnostics });
     }
 
     return res.status(200).json(product);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Unexpected API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    diagnostics.error = error?.message || String(error);
+    return res.status(500).json({ error: 'Internal server error', diagnostics });
   }
 }

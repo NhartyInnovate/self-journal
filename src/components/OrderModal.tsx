@@ -58,8 +58,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const totalPrice = unitPrice ? (unitPrice * quantity) : 0;
-  // Format kobo to Naira
-  const displayTotal = (totalPrice / 100).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // Format Naira
+  const displayTotal = totalPrice.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   const handleIncrement = () => setQuantity((prev) => Math.min(prev + 20, prev + 1));
   const handleDecrement = () => setQuantity((prev) => Math.max(prev - 1, 1));
@@ -127,7 +127,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
       paystack.newTransaction({
         key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
         email: customerEmail,
-        amount: order.total_amount, // DB calculated
+        amount: order.total_amount * 100,
         reference: order.payment_reference,
         onSuccess: (transaction: any) => {
           // DO NOT TRUST UI SUCCESS. Transition to confirming state.

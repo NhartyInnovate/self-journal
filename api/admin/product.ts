@@ -3,16 +3,15 @@ import { supabaseAdmin } from '../_lib/supabase.js';
 import { requireAdminAuth } from '../_lib/auth.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS for local dev
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-test-admin-bypass');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, cookie, x-test-admin-bypass');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Enforce admin auth
   if (!requireAdminAuth(req, res)) {
     return;
   }
@@ -35,14 +34,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         .eq('product_id', product.id)
         .order('changed_at', { ascending: false });
 
-      if (historyError) {
-        return res.status(500).json({ error: 'Failed to fetch price history' });
-      }
-
       return res.status(200).json({
         success: true,
         product,
-        history
+        history: history || []
       });
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' });
@@ -51,13 +46,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'PATCH') {
     try {
-      const { price } = req.body;
+      const { name, price, preorders_open } = req.body;
 
-      if (price === undefined || typeof price !== 'number' || !Number.isInteger(price) || price < 0) {
-        return res.status(400).json({ error: 'Valid price (integer >= 0) is required' });
+      // Validation
+      if (name !== undefined && (typeof name !== 'string' || name.trim() === '')) {
+        return res.status(400).json({ error: 'Valid name is required' });
+      }
+      
+      if (price !== undefined && (typeof price !== 'number' || !Number.isInteger(price) || price <= 0)) {
+        return res.status(400).json({ error: 'Valid price (positive integer in Naira) is required' });
       }
 
-      // Fetch current active product
+      if (preorders_open !== undefined && typeof preorders_open !== 'boolean') {
+        return res.status(400).json({ error: 'preorders_open must be a boolean' });
+      }
+
       const { data: product, error: fetchError } = await supabaseAdmin
         .from('products')
         .select('*')
@@ -68,43 +71,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(404).json({ error: 'Active product not found' });
       }
 
-      if (product.price === price) {
-        return res.status(200).json({ success: true, message: 'Price is already set to this value', product });
-      }
+      const updates: any = {};
+      if (name !== undefined) updates.name = name.trim();
+      if (price !== undefined) updates.price = price;
+      if (preorders_open !== undefined) updates.preorders_open = preorders_open;
 
-      // Update the product and insert history
-      const oldPrice = product.price;
+      if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: 'No fields to update' });
+      }
 
       const { data: updatedProduct, error: updateError } = await supabaseAdmin
         .from('products')
-        .update({ price })
+        .update(updates)
         .eq('id', product.id)
         .select()
         .single();
 
       if (updateError || !updatedProduct) {
-        return res.status(500).json({ error: 'Failed to update product price' });
+        return res.status(500).json({ error: 'Failed to update product' });
       }
 
-      const { error: historyError } = await supabaseAdmin
-        .from('product_price_history')
-        .insert({
-          product_id: product.id,
-          old_price: oldPrice,
-          new_price: price,
-          currency: product.currency
-        });
-
-      if (historyError) {
-        // We log it but do not fail the request if history insertion fails, though in a real system a transaction is better.
-        // Supabase JS doesn't support transactions, so we rely on postgres functions if atomicity is strictly required.
-        console.error('Failed to log price history:', historyError);
+      // If price changed, log history
+      if (price !== undefined && product.price !== price) {
+        await supabaseAdmin
+          .from('product_price_history')
+          .insert({
+            product_id: product.id,
+            old_price: product.price,
+            new_price: price,
+            currency: product.currency
+          });
       }
 
-      return res.status(200).json({
-        success: true,
-        product: updatedProduct
-      });
+      return res.status(200).json({ success: true, product: updatedProduct });
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' });
     }

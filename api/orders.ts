@@ -32,18 +32,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { data: product, error: productError } = await supabaseAdmin
       .from('products')
-      .select('price, currency')
+      .select('price, currency, preorders_open')
       .eq('is_active', true)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle();
+
+    // Deterministic deployment lock
+    if (productError && productError.code === '42703') {
+      return res.status(503).json({ error: 'System is undergoing maintenance. Please try again in a few minutes.' });
+    }
 
     let unit_price: number;
     let currency: string;
 
     if (productError || !product) {
       // Fallback to environment variable if database product is missing or misconfigured
-      const envPrice = process.env.BOOK_PRICE_KOBO;
+      const envPrice = process.env.BOOK_PRICE_NAIRA || (process.env.BOOK_PRICE_KOBO ? String(Number(process.env.BOOK_PRICE_KOBO) / 100) : null);
       if (envPrice && !isNaN(Number(envPrice))) {
         unit_price = Number(envPrice);
         currency = 'NGN';
@@ -52,6 +57,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(500).json({ error: 'Pricing configuration error.' });
       }
     } else {
+      if (product.preorders_open === false) {
+        return res.status(403).json({ error: 'Preorders are currently closed.' });
+      }
       unit_price = product.price;
       currency = product.currency;
     }

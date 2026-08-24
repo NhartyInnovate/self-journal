@@ -79,9 +79,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ success: true, message: 'Order already marked as PAID.' });
     }
 
-    // Amount and currency verification
-    if (amount !== order.total_amount) {
-      console.error(`Webhook Mismatch: Order ${order.id} expected ${order.total_amount}, received ${amount}`);
+    // Amount and currency verification (Paystack amount is always in Kobo)
+    // Deterministic Transition Layer: Check if DB has been migrated to Naira
+    // We check if the 'preorders_open' column exists in products. If not, DB is still in Kobo.
+    const { error: schemaError } = await supabaseAdmin.from('products').select('preorders_open').limit(1);
+    const isMigratedToNaira = !(schemaError && schemaError.code === '42703');
+
+    const expectedAmountKobo = isMigratedToNaira ? order.total_amount * 100 : order.total_amount;
+    if (amount !== expectedAmountKobo) {
+      console.error(`Webhook Mismatch: Order ${order.id} expected ${expectedAmountKobo}, received ${amount}`);
       return res.status(400).json({ error: 'Amount mismatch' });
     }
 

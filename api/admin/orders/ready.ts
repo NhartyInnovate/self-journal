@@ -7,7 +7,8 @@ import { getCopyReadyHtml } from '../../_lib/email-templates.js';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-test-admin-bypass');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, cookie, x-test-admin-bypass');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();

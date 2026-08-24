@@ -10,8 +10,8 @@ const baseStyles = `
   .mono { font-family: monospace; color: #B43B23; }
 `;
 
-export function getPreorderConfirmationHtml(name: string, bookTitle: string, quantity: number, amountPaidKobo: number, reference: string, releaseDate: string) {
-  const amountStr = (amountPaidKobo / 100).toLocaleString('en-NG', { minimumFractionDigits: 2 });
+export function getPreorderConfirmationHtml(name: string, bookTitle: string, quantity: number, amountPaidNaira: number, reference: string, releaseDate: string) {
+  const amountStr = amountPaidNaira.toLocaleString('en-NG', { minimumFractionDigits: 2 });
   
   return `
     <!DOCTYPE html>

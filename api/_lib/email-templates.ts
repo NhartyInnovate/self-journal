@@ -29,7 +29,7 @@ export function getPreorderConfirmationHtml(name: string, bookTitle: string, qua
         <div class="row"><span>Reference:</span> <span style="font-size:12px; color:#5F5F5F;">${reference}</span></div>
       </div>
 
-      <p>Your dispatch receipt and guided reflection bonuses have been secured. The expected release date is <strong>${releaseDate}</strong>. We will notify you via email as soon as your copy is ready for delivery.</p>
+      <p>Your guided reflection bonuses have been secured. The expected release date is <strong>${releaseDate}</strong>. We will notify you via email as soon as your copy is ready.</p>
       
       <div class="footer">
         © ${new Date().getFullYear()} Mimshach Obioha. All rights reserved.
@@ -48,9 +48,9 @@ export function getCopyReadyHtml(name: string, bookTitle: string, reference: str
       <div class="accent">YOUR COPY IS READY</div>
       <h1>Ramblings & Epiphanies</h1>
       <p>Dear ${name},</p>
-      <p>Great news! Your preordered copy of <strong>${bookTitle}</strong> is now ready and is being prepared for dispatch.</p>
+      <p>Great news! Your preordered copy of <strong>${bookTitle}</strong> is now ready and available.</p>
       <p>Order Reference: <span style="font-size:12px; color:#5F5F5F;">${reference}</span></p>
-      <p>We will be in touch shortly with final delivery details.</p>
+      <p>We will be in touch shortly with further instructions on how to access your copy.</p>
       <div class="footer">
         © ${new Date().getFullYear()} Mimshach Obioha. All rights reserved.
       </div>
@@ -69,7 +69,7 @@ export function getReleaseNotificationHtml(name: string, bookTitle: string) {
       <h1>Ramblings & Epiphanies</h1>
       <p>Dear ${name},</p>
       <p>The wait is over. <strong>${bookTitle}</strong> is officially released today!</p>
-      <p>Because you secured a preorder, your copy is guaranteed. Our fulfillment team is actively processing all preorders and will contact you directly with tracking or delivery confirmation.</p>
+      <p>Because you secured a preorder, your copy is guaranteed. We will contact you directly with instructions on how to access your copy.</p>
       <p>Thank you for your early support.</p>
       <div class="footer">
         © ${new Date().getFullYear()} Mimshach Obioha. All rights reserved.

@@ -219,9 +219,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
               >
                 Order Confirmed
               </h3>
-              <p className="text-xs sm:text-sm text-[#5F5F5F] max-w-sm mb-6 leading-relaxed">
-                Thank you for ordering <strong>{quantity} &times; {CURRENT_BOOK.title}</strong>. Your dispatch receipt and guided reflection bonuses have been delivered to your email.
-              </p>
+              <div className="text-xs sm:text-sm text-[#5F5F5F] max-w-sm mb-6 leading-relaxed space-y-2">
+                <p>Thank you for ordering <strong>{quantity} &times; {CURRENT_BOOK.title}</strong>.</p>
+                <p>Your preorder has been confirmed.</p>
+                <p>A confirmation email has been sent to your email address.</p>
+              </div>
               <button
                 onClick={handleClose}
                 className="py-3 px-8 bg-[#111111] hover:bg-[#222222] text-white rounded-full text-xs font-semibold uppercase tracking-[1.5px] transition-all cursor-pointer shadow-sm"

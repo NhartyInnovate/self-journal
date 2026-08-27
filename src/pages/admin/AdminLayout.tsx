@@ -75,7 +75,18 @@ export function AdminLayout() {
             }
           >
             <Settings className="mr-3 h-5 w-5" />
-            Settings
+            Product Settings
+          </NavLink>
+          <NavLink
+            to="/admin/emails"
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                isActive ? 'bg-gray-100 text-gray-900' : 'text-gray-600 hover:bg-gray-50'
+              }`
+            }
+          >
+            <Settings className="mr-3 h-5 w-5" />
+            Email Templates
           </NavLink>
         </nav>
       </aside>

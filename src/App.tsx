@@ -6,6 +6,7 @@ import { Dashboard } from './pages/admin/Dashboard';
 import { OrdersList } from './pages/admin/OrdersList';
 import { OrderDetails } from './pages/admin/OrderDetails';
 import { ProductSettings } from './pages/admin/ProductSettings';
+import { EmailSettings } from './pages/admin/EmailSettings';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="orders" element={<OrdersList />} />
           <Route path="orders/:id" element={<OrderDetails />} />
           <Route path="product" element={<ProductSettings />} />
+          <Route path="emails" element={<EmailSettings />} />
         </Route>
       </Routes>
     </Router>

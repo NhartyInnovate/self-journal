@@ -52,17 +52,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ status: 'completed', processed: 0 });
     }
 
+    const { resend, getFromEmail } = await import('../_lib/resend.js');
+    const { getReleaseNotificationEmail } = await import('../_lib/email-templates.js');
+
+    const fromEmail = getFromEmail();
     let processedCount = 0;
     let failedCount = 0;
 
-    // Process serially or in batches to avoid rate limits
+    // Send emails sequentially or in small batches to respect rate limits
     for (const order of orders) {
-      const html = getReleaseNotificationHtml(order.customer_name, 'Ramblings & Epiphanies');
-      
+      const { subject, html } = await getReleaseNotificationEmail(order.customer_name, 'Ramblings & Epiphanies');
+
       const { error: emailError } = await resend.emails.send({
-        from: getFromEmail(),
+        from: fromEmail,
         to: order.customer_email,
-        subject: 'Ramblings & Epiphanies - Official Release Today!',
+        subject: subject,
         html: html
       });
 

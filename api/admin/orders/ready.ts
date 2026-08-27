@@ -58,12 +58,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // EMAIL 2 - COPY READY (Idempotent)
     if (order.ready_email_sent === false) {
-      const html = getCopyReadyHtml(order.customer_name, 'Ramblings & Epiphanies', order.payment_reference);
-      
+      const { resend, getFromEmail } = await import('../../_lib/resend.js');
+      const { getCopyReadyEmail } = await import('../../_lib/email-templates.js');
+
+      const { subject, html } = await getCopyReadyEmail(order.customer_name, 'Ramblings & Epiphanies', order.payment_reference);
+
       const { error: emailError } = await resend.emails.send({
         from: getFromEmail(),
         to: order.customer_email,
-        subject: 'Your Copy is Ready - Ramblings & Epiphanies',
+        subject: subject,
         html: html
       });
 

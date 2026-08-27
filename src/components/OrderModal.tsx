@@ -32,7 +32,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       setIsLoadingPrice(true);
-      fetch('/api/product')
+      // Append a cache-buster timestamp to ensure the browser doesn't serve a stale HTML response
+      fetch(`/api/product?t=${Date.now()}`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to fetch price');
           return res.json();

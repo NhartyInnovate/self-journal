@@ -19,7 +19,7 @@ export function Dashboard() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await fetch('/api/admin/stats');
+        const res = await fetch(`/api/admin/stats?t=${Date.now()}`);
         if (res.ok) {
           const data = await res.json();
           setStats(data.stats);

@@ -62,83 +62,102 @@ export function OrderDetails() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
-      <div className="flex items-center space-x-4">
-        <Link to="/admin/orders" className="text-gray-500 hover:text-gray-900">
-          <ArrowLeft className="h-6 w-6" />
+    <div className="space-y-6 max-w-4xl mx-auto">
+      <div className="flex items-center space-x-4 mb-8">
+        <Link to="/admin/orders" className="w-10 h-10 rounded-full bg-white border border-[#EAEAEA] flex items-center justify-center text-gray-500 hover:text-[#111111] hover:shadow-sm transition-all">
+          <ArrowLeft className="h-5 w-5" />
         </Link>
-        <h2 className="text-2xl font-bold text-gray-900">Order Details</h2>
+        <h2 className="text-3xl font-serif font-bold text-[#111111]">Order Details</h2>
       </div>
 
       {message && (
-        <div className="p-4 rounded-md bg-blue-50 text-blue-800">
+        <div className={`p-4 rounded-xl ${message.includes('error') || message.includes('Failed') ? 'bg-red-50 text-red-800' : 'bg-[#70C12E]/10 text-[#70C12E]'}`}>
           {message}
         </div>
       )}
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
-        <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
+      <div className="bg-white shadow-sm overflow-hidden rounded-3xl border border-[#EAEAEA]">
+        <div className="px-8 py-6 flex justify-between items-center border-b border-[#EAEAEA]">
           <div>
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Preorder Information</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and payment status.</p>
+            <h3 className="text-xl font-serif font-bold text-[#111111]">Preorder Information</h3>
+            <p className="mt-1 text-sm text-gray-500">Personal details and payment status.</p>
           </div>
           {order.payment_status === 'PAID' && order.order_status !== 'READY' && order.order_status !== 'CUSTOMER_NOTIFIED' && (
             <button
               onClick={handleMarkReady}
               disabled={markingReady}
-              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50"
+              className="inline-flex items-center px-6 py-2.5 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-[#111111] hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#111111] disabled:opacity-50 transition-colors"
             >
               {markingReady ? 'Processing...' : 'Mark as Ready'}
             </button>
           )}
         </div>
-        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-          <dl className="sm:divide-y sm:divide-gray-200">
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Customer Name</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{order.customer_name}</dd>
+        <div className="px-8 py-6">
+          <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <div className="sm:col-span-1">
+              <dt className="text-sm font-medium text-gray-500 mb-1">Customer Name</dt>
+              <dd className="text-base font-semibold text-[#111111]">{order.customer_name}</dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Email address</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{order.customer_email}</dd>
+            <div className="sm:col-span-1">
+              <dt className="text-sm font-medium text-gray-500 mb-1">Email address</dt>
+              <dd className="text-base font-semibold text-[#111111]">{order.customer_email}</dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Total Amount</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{formatCurrency(order.total_amount, order.currency)} ({order.quantity} reserved)</dd>
+            <div className="sm:col-span-1">
+              <dt className="text-sm font-medium text-gray-500 mb-1">Total Amount</dt>
+              <dd className="text-base font-semibold text-[#111111]">{formatCurrency(order.total_amount, order.currency)} <span className="text-gray-400 font-normal ml-1">({order.quantity} reserved)</span></dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Payment Reference</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-mono text-xs">{order.payment_reference}</dd>
+            <div className="sm:col-span-1">
+              <dt className="text-sm font-medium text-gray-500 mb-1">Payment Reference</dt>
+              <dd className="text-sm font-mono text-gray-600 bg-gray-50 p-2 rounded-md inline-block">{order.payment_reference}</dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Status</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 space-y-2">
-                <div className="flex items-center text-sm">
-                  <span className="w-32 text-gray-500">Payment:</span>
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${order.payment_status === 'PAID' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+            
+            <div className="sm:col-span-2 border-t border-[#EAEAEA] pt-8 mt-2">
+              <dt className="text-sm font-medium text-gray-500 mb-4">Status Overview</dt>
+              <dd className="flex flex-col sm:flex-row sm:gap-12 gap-6">
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-gray-400 mb-2">Payment</span>
+                  <span className={`px-3 py-1 inline-flex text-sm font-semibold rounded-full ${order.payment_status === 'PAID' ? 'bg-[#70C12E]/10 text-[#70C12E]' : 'bg-[#F29F1C]/10 text-[#F29F1C]'}`}>
                     {order.payment_status}
                   </span>
                 </div>
-                <div className="flex items-center text-sm">
-                  <span className="w-32 text-gray-500">Order:</span>
-                  <span className="font-semibold">{order.order_status}</span>
+                <div>
+                  <span className="block text-xs uppercase tracking-wider text-gray-400 mb-2">Order</span>
+                  <span className="text-base font-semibold text-[#111111]">{order.order_status}</span>
                 </div>
               </dd>
             </div>
-            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Email Notifications</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 space-y-2">
-                <div className="flex items-center text-sm">
-                  <Mail className={`w-4 h-4 mr-2 ${order.confirmation_email_sent ? 'text-green-500' : 'text-gray-300'}`} />
-                  Confirmation Email: {order.confirmation_email_sent ? 'Sent' : 'Pending'}
+            
+            <div className="sm:col-span-2 border-t border-[#EAEAEA] pt-8 mt-2">
+              <dt className="text-sm font-medium text-gray-500 mb-4">Email Notifications Log</dt>
+              <dd className="space-y-4">
+                <div className="flex items-center text-sm p-3 rounded-xl border border-[#EAEAEA] bg-gray-50">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${order.confirmation_email_sent ? 'bg-[#70C12E]/10 text-[#70C12E]' : 'bg-gray-200 text-gray-400'}`}>
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#111111]">Preorder Confirmation</p>
+                    <p className="text-gray-500 text-xs">{order.confirmation_email_sent ? 'Delivered successfully' : 'Pending payment'}</p>
+                  </div>
                 </div>
-                <div className="flex items-center text-sm">
-                  <Mail className={`w-4 h-4 mr-2 ${order.ready_email_sent ? 'text-green-500' : 'text-gray-300'}`} />
-                  Copy Ready Email: {order.ready_email_sent ? 'Sent' : 'Pending'}
+                
+                <div className="flex items-center text-sm p-3 rounded-xl border border-[#EAEAEA] bg-gray-50">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${order.ready_email_sent ? 'bg-[#70C12E]/10 text-[#70C12E]' : 'bg-gray-200 text-gray-400'}`}>
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#111111]">Copy Ready Notification</p>
+                    <p className="text-gray-500 text-xs">{order.ready_email_sent ? 'Delivered successfully' : 'Pending manual trigger'}</p>
+                  </div>
                 </div>
-                <div className="flex items-center text-sm">
-                  <Mail className={`w-4 h-4 mr-2 ${order.release_email_sent ? 'text-green-500' : 'text-gray-300'}`} />
-                  Release Email: {order.release_email_sent ? 'Sent' : 'Pending'}
+                
+                <div className="flex items-center text-sm p-3 rounded-xl border border-[#EAEAEA] bg-gray-50">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${order.release_email_sent ? 'bg-[#70C12E]/10 text-[#70C12E]' : 'bg-gray-200 text-gray-400'}`}>
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-[#111111]">Official Release Broadcast</p>
+                    <p className="text-gray-500 text-xs">{order.release_email_sent ? 'Delivered successfully' : 'Pending cron job'}</p>
+                  </div>
                 </div>
               </dd>
             </div>

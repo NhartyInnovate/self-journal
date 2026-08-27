@@ -33,13 +33,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (envPrice && !isNaN(Number(envPrice))) {
         return res.status(200).json({ name: 'Ramblings & Epiphanies', price: Number(envPrice), currency: 'NGN', preorders_open: true });
       }
-      return res.status(500).json({ error: 'Pricing configuration error.' });
+      return res.status(500).json({ error: `Pricing configuration error. envPrice: ${envPrice}`, details: productError });
     }
 
     return res.status(200).json(product);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Unexpected API Error:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error', details: error.message || String(error) });
   }
 }
 

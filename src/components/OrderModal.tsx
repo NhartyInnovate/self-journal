@@ -34,8 +34,17 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
       setIsLoadingPrice(true);
       // Append a cache-buster timestamp to ensure the browser doesn't serve a stale HTML response
       fetch(`/api/product?t=${Date.now()}`)
-        .then((res) => {
-          if (!res.ok) throw new Error('Failed to fetch price');
+        .then(async (res) => {
+          if (!res.ok) {
+            let serverError = 'Failed to fetch price';
+            try {
+              const errorData = await res.json();
+              serverError = errorData.error || serverError;
+            } catch (e) {
+              // Ignore JSON parse errors for non-JSON responses
+            }
+            throw new Error(`[${res.status}] ${serverError}`);
+          }
           return res.json();
         })
         .then((data) => {
@@ -45,7 +54,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         })
         .catch((err) => {
           console.error(err);
-          setPriceError('Unable to load pricing');
+          setPriceError(`Error: ${err.message || 'Unknown network error'}`);
           setIsLoadingPrice(false);
         });
     } else {

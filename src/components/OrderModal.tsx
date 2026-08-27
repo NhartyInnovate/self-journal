@@ -25,8 +25,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
 
   // Pricing from DB
   const [unitPrice, setUnitPrice] = useState<number | null>(null);
-  const [isLoadingPrice, setIsLoadingPrice] = useState(true);
-  const [priceError, setPriceError] = useState('');
+  const [preordersOpen, setPreordersOpen] = useState<boolean>(true);
+  const [isLoadingPrice, setIsLoadingPrice] = useState(false);
+  const [priceError, setPriceError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -38,6 +39,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         })
         .then((data) => {
           setUnitPrice(data.price);
+          setPreordersOpen(data.preorders_open !== false);
           setIsLoadingPrice(false);
         })
         .catch((err) => {
@@ -52,6 +54,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
       setQuantity(1);
       setCustomerName('');
       setCustomerEmail('');
+      setPriceError(null);
     }
   }, [isOpen]);
 
@@ -310,11 +313,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                   <button
                     type="button"
                     onClick={handleProceedToGateway}
-                    disabled={isProcessing || isLoadingPrice || !unitPrice}
+                    disabled={isProcessing || isLoadingPrice || !unitPrice || !preordersOpen}
                     className="w-full sm:w-auto min-w-[200px] inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#F29F1C] hover:bg-[#DF8F14] active:scale-[0.98] text-white text-[13.5px] font-medium transition-all shadow-sm cursor-pointer select-none disabled:opacity-60"
                   >
                     <CheckSquare className="w-4 h-4" />
-                    <span>{isProcessing ? 'Processing...' : 'Buy Now'}</span>
+                    <span>{!preordersOpen ? 'Preorders Closed' : isProcessing ? 'Processing...' : 'Buy Now'}</span>
                   </button>
                 </div>
               </div>

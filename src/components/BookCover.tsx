@@ -25,7 +25,7 @@ export const BookCover: React.FC<BookCoverProps> = ({ onQuickPreview, className 
         {/* Physical Book Cover Photograph Card */}
         <div
           id="book-cover"
-          className="relative w-[300px] sm:w-[340px] md:w-[370px] aspect-[3/4] bg-[#F4F1EC] text-white overflow-hidden shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)] border border-[#EAEAEA] transition-all duration-300 rounded-none"
+          className="relative w-[300px] sm:w-[340px] md:w-[370px] aspect-[3/4] bg-[#F4F1EC] text-white overflow-hidden shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)] border border-[#EAEAEA] transition-all duration-300 rounded-[24px]"
         >
           <img
             src={heroBookImg}

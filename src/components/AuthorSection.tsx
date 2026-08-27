@@ -26,7 +26,7 @@ export const AuthorSection: React.FC<AuthorSectionProps> = () => {
           >
             <div
               id="author-portrait-card"
-              className="relative w-full aspect-[3/4] max-w-[420px] rounded-[6px] overflow-hidden shadow-xl shadow-black/8 group bg-[#111111] transition-shadow duration-500 hover:shadow-2xl border border-[#EAEAEA]"
+              className="relative w-full aspect-[3/4] max-w-[420px] rounded-[24px] overflow-hidden shadow-xl shadow-black/8 group bg-[#111111] transition-shadow duration-500 hover:shadow-2xl border border-[#EAEAEA]"
             >
               {/* High-res Author Portrait */}
               <img
@@ -36,20 +36,6 @@ export const AuthorSection: React.FC<AuthorSectionProps> = () => {
                 className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                 referrerPolicy="no-referrer"
               />
-
-              {/* Bottom Subtle Gradient Shadow for Watermark */}
-              <div
-                className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"
-                aria-hidden="true"
-              />
-
-              {/* Overlay Badge at Bottom Left */}
-              <div
-                id="author-portrait-watermark"
-                className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 text-white/95 text-[10px] sm:text-[11px] font-medium tracking-[2px] uppercase select-none drop-shadow-sm"
-              >
-                AUTHOR PORTRAIT
-              </div>
             </div>
           </motion.div>
 

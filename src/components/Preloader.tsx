@@ -5,11 +5,11 @@ export const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) 
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Artificial delay to show the loader (e.g. 1.5 seconds)
+    // Artificial delay to show the loader (reduced by half)
     const timer = setTimeout(() => {
       setIsVisible(false);
       setTimeout(onComplete, 500); // give time for fade out
-    }, 1500);
+    }, 750);
     return () => clearTimeout(timer);
   }, [onComplete]);
 

@@ -23,10 +23,7 @@ export function EmailSettings() {
 
   const fetchTemplates = async () => {
     try {
-      const token = document.cookie.split('; ').find(row => row.startsWith('admin_session='))?.split('=')[1];
-      const res = await fetch(`/api/admin/emails?t=${Date.now()}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await fetch(`/api/admin/emails?t=${Date.now()}`);
       const data = await res.json();
       if (res.ok) {
         setTemplates(data.templates);
@@ -56,12 +53,10 @@ export function EmailSettings() {
     setMessage(null);
 
     try {
-      const token = document.cookie.split('; ').find(row => row.startsWith('admin_session='))?.split('=')[1];
       const res = await fetch('/api/admin/emails', {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           template_type: activeTab,

@@ -80,6 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         payment_status: 'PENDING',
         order_status: 'PENDING_PAYMENT',
         payment_reference: order_id,
+        confirmation_email_sent: false,
         release_email_sent: false
       })
       .select()

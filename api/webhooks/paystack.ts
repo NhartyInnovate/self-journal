@@ -112,7 +112,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // EMAIL 1 - PREORDER CONFIRMATION
-    if (order.confirmation_email_sent === false) {
+    if (order.confirmation_email_sent !== true) {
       const { resend, getFromEmail } = await import('../_lib/resend.js');
       const { getPreorderConfirmationHtml } = await import('../_lib/email-templates.js');
       

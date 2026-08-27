@@ -54,7 +54,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         })
         .catch((err) => {
           console.error(err);
-          setPriceError(`Error: ${err.message || 'Unknown network error'}`);
+          setPriceError(`Error: ${err.message}. Host: ${window.location.hostname}`);
           setIsLoadingPrice(false);
         });
     } else {
